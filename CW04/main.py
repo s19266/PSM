@@ -3,46 +3,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-def calculate_top_point(point):
-  return (point[0], point[1]+1)
+x = 2
+y = 2
 
-def calculate_left_point(point):
-  return (point[0]-1, point[1])
+original_top_temp=200
+original_bottom_temp=50
+original_left_temp=150
+original_right_temp=100
 
-def calculate_bottom_point(point):
-  return (point[0], point[1]-1)
-
-def calculate_right_point(point):
-  return (point[0]+1, point[1])
+delta=1
 
 def calculate_temp(x,y):
-
-  def export_temp(point):
-    px,py = point[0],point[1]
-    if ((px != 0 and px != x + 1) and (py != 0 and py != y + 1)):
-      return None
-    if (px == 0):
-      return original_left_temp
-    if (px == x+1):
-      return original_right_temp
-    if (py == 0):
-      return original_bottom_temp
-    if (py == y+1):
-      return original_top_temp
-  
-  def export_line_table(point):
-    px,py = point[0],point[1]
-    return px - 1 + (( py - 1 ) * x)
-
-  def calc_known_temp(temperatures):
-    return sum(filter(lambda val: val,temperatures))
-
-  original_top_temp=200
-  original_bottom_temp=50
-  original_left_temp=150
-  original_right_temp=100
-  delta=1
-
   color_interpolation=50
   color_map=plt.cm.get_cmap('RdYlGn_r')
 
@@ -115,4 +86,40 @@ def calculate_temp(x,y):
   df.to_excel(sys.path[0]+"/HEAT_CALC.xlsx", index = False)
   print (f"Done! Check your excel here: {sys.path[0]}/HEAT_CALC.xlsx")
 
-calculate_temp(40,40)
+def export_temp(point):
+  px,py = point[0],point[1]
+  if ((px != 0 and px != x + 1) and (py != 0 and py != y + 1)):
+    return None
+  if (px == 0):
+    return original_left_temp
+  if (px == x+1):
+    return original_right_temp
+  if (py == 0):
+    return original_bottom_temp
+  if (py == y+1):
+    return original_top_temp
+
+def export_line_table(point):
+  px,py = point[0],point[1]
+  return px - 1 + (( py - 1 ) * x)
+
+def calc_known_temp(temperatures):
+  return sum(filter(lambda val: val,temperatures))
+
+def calculate_top_point(point):
+  return (point[0], point[1]+1)
+
+def calculate_left_point(point):
+  return (point[0]-1, point[1])
+
+def calculate_bottom_point(point):
+  return (point[0], point[1]-1)
+
+def calculate_right_point(point):
+  return (point[0]+1, point[1])
+
+def main():
+  calculate_temp(x,y)
+
+if __name__ == '__main__':
+  main()
